@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import axios from "axios";
 
 type AuthState = {
@@ -10,64 +11,55 @@ type AuthState = {
   refreshAccessToken: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
-  accessToken: null,
-  refreshToken: null,
-
-  login: async (email, password) => {
-    // const response = await axios.post("/api/auth/login", {
-    //   email,
-    //   password,
-    // });
-
-    // TODO
-    const { accessToken, refreshToken } = {
-      accessToken: "accessToken",
-      refreshToken: "refreshToken",
-    };
-
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-
-    set({
-      isAuthenticated: true,
-      accessToken,
-      refreshToken,
-    });
-  },
-
-  logout: () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       isAuthenticated: false,
       accessToken: null,
       refreshToken: null,
-    });
-  },
 
-  refreshAccessToken: async () => {
-    const storedRefreshToken = localStorage.getItem("refreshToken");
+      login: async (email, password) => {
+        // const { accessToken, refreshToken } = await axios
+        //   .post("/api/auth/login", { email, password })
+        //   .then((res) => res.data);
+        // TODO
+        set({
+          isAuthenticated: true,
+          accessToken: email,
+          refreshToken: password,
+        });
+      },
 
-    if (!storedRefreshToken) {
-      throw new Error("No refresh token available");
+      logout: () => {
+        set({
+          isAuthenticated: false,
+          accessToken: null,
+          refreshToken: null,
+        });
+      },
+
+      refreshAccessToken: async () => {
+        const storedRefreshToken = useAuthStore.getState().refreshToken;
+
+        if (!storedRefreshToken) {
+          throw new Error("No refresh token available");
+        }
+
+        const response = await axios.post("/api/auth/refresh-token", {
+          refreshToken: storedRefreshToken,
+        });
+
+        const { accessToken, refreshToken } = response.data;
+
+        set({
+          accessToken,
+          refreshToken,
+          isAuthenticated: true,
+        });
+      },
+    }),
+    {
+      name: "auth-storage",
     }
-
-    const response = await axios.post("/api/auth/refresh-token", {
-      refreshToken: storedRefreshToken,
-    });
-
-    const { accessToken, refreshToken } = response.data;
-
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-
-    set({
-      accessToken,
-      refreshToken,
-      isAuthenticated: true,
-    });
-  },
-}));
+  )
+);
