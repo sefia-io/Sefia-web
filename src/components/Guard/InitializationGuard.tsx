@@ -1,9 +1,14 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useServerStore } from "@/store/serverStore";
 
 const InitializationGuard = ({ children }: { children: ReactNode }) => {
-    const isInitialized = true; // TODO: 서버에서 가져오거나 상태로 관리
+    const { isInitialized, checkInitialization } = useServerStore();
     const location = useLocation();
+
+    useEffect(() => {
+        checkInitialization();
+    }, [checkInitialization]);
 
     if (!isInitialized) {
         return location.pathname === "/get-started" ? (
