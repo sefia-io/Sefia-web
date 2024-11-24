@@ -10,11 +10,11 @@ const AppBar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/signin");
   };
 
   return (
@@ -72,11 +72,11 @@ const AppBar = () => {
 
         {isAuthenticated ? (
           <Button onClick={handleLogout} variant="outline">
-            Logout
+            Sign Out
           </Button>
         ) : (
           <Button onClick={handleLogin} variant="default">
-            Login
+            Sign In
           </Button>
         )}
       </div>

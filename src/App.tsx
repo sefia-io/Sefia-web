@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@/components/theme-provider"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import HomePage from "./pages/Home"
-import LoginPage from "./pages/Login"
+import LoginPage from "./pages/SignIn"
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signin" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
