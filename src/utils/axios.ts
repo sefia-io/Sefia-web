@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 
-const instance = axios.create({
-  baseURL: "/api",
+const authFetch = axios.create({
+  baseURL: "http://localhost:8080/api",
   timeout: 10000,
 });
 
-instance.interceptors.request.use(
+authFetch.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -17,7 +17,7 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-instance.interceptors.response.use(
+authFetch.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -31,7 +31,8 @@ instance.interceptors.response.use(
 
         originalRequest.headers.Authorization = `Bearer ${authStore.accessToken}`;
         return axios(originalRequest);
-      } catch (err) {
+      } catch (error) {
+        console.log(error);
         authStore.logout();
       }
     }
@@ -40,4 +41,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default authFetch;
