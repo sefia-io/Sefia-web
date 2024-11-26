@@ -26,7 +26,7 @@ type InitState = {
 
 export const useInitStore = create<InitState>((set) => ({
   currentPage: 1,
-  lastPage: 3,
+  lastPage: 4,
   adminInfo: { email: "", name: "", password: "" },
   domainInfo: { applicationDomain: "", servingDomain: "", webRoot: "" },
   nextPage: () =>
