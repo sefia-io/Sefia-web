@@ -6,20 +6,29 @@ type AdminInfo = {
   password: string;
 };
 
+type DomainInfo = {
+  applicationDomain: string;
+  servingDomain: string;
+  webRoot: string;
+};
+
 type InitState = {
   currentPage: number;
   lastPage: number;
   adminInfo: AdminInfo;
+  domainInfo: DomainInfo;
   nextPage: () => void;
   prevPage: () => void;
   setPage: (page: number) => void;
   setAdminInfo: (info: AdminInfo) => void;
+  setDomainInfo: (info: DomainInfo) => void;
 };
 
 export const useInitStore = create<InitState>((set) => ({
   currentPage: 1,
   lastPage: 3,
   adminInfo: { email: "", name: "", password: "" },
+  domainInfo: { applicationDomain: "", servingDomain: "", webRoot: "" },
   nextPage: () =>
     set((state) => ({
       currentPage: Math.min(state.currentPage + 1, state.lastPage),
@@ -36,4 +45,9 @@ export const useInitStore = create<InitState>((set) => ({
     set(() => ({
       adminInfo: info,
     })),
+  setDomainInfo(info) {
+    set(() => ({
+      domainInfo: info,
+    }));
+  },
 }));
