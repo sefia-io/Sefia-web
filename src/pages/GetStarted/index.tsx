@@ -4,10 +4,12 @@ import SecondPage from "./SecondPage";
 import ThirdPage from "./ThirdPage";
 import PageNavigator from "./PageNavigator";
 import ConstellationBackground from "@/components/Backgrounds/ConstellationBackground";
+import { useTheme } from "@/components/theme-provider";
 
 const NAVIGATOR_HEIGHT = 64; // Navigator height in pixels
 
 const GetStarted = () => {
+  const { theme } = useTheme();
   const { currentPage } = useInitStore();
 
   const renderPage = () => {
