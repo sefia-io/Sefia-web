@@ -15,12 +15,10 @@ type FormValues = {
 type Errors = Partial<Record<keyof FormValues, string>>;
 
 const SecondPage = () => {
-  const { setAdminInfo, nextPage } = useInitStore();
+  const { adminInfo, setAdminInfo, nextPage } = useInitStore();
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState<FormValues>({
-    email: "",
-    name: "",
-    password: "",
+    ...adminInfo,
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<Errors>({});
