@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 const FourthPage = () => {
   const { adminInfo, domainInfo, prevPage } = useInitStore();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     setLoading(true);
-    const navigate = useNavigate();
 
     try {
       const dto = {
