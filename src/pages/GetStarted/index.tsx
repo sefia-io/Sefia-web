@@ -3,8 +3,7 @@ import FirstPage from "./FirstPage";
 import SecondPage from "./SecondPage";
 import ThirdPage from "./ThirdPage";
 import PageNavigator from "./PageNavigator";
-import ShootingStar from "@/components/Backgrounds/ShootingStar";
-import ParticleBackground from "@/components/Backgrounds/ParticleBackground";
+import ConstellationBackground from "@/components/Backgrounds/ConstellationBackground";
 
 const NAVIGATOR_HEIGHT = 64; // Navigator height in pixels
 
@@ -26,8 +25,7 @@ const GetStarted = () => {
 
   return (
     <>
-      <ParticleBackground />
-      <ShootingStar />
+      <ConstellationBackground />
       <div
         className="flex flex-col items-center justify-center p-4"
         style={{ minHeight: `calc(100vh - ${NAVIGATOR_HEIGHT}px)` }}
